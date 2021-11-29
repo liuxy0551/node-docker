@@ -1,0 +1,9 @@
+node_modules
+
+.DS_Store
+.vscode
+.idea
+
+pm2/logs/*.log
+
+utils/wechat/*.json

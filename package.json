@@ -1,0 +1,31 @@
+{
+  "name": "node-docker",
+  "version": "1.0.0",
+  "description": "node-docker",
+  "main": "app.js",
+  "scripts": {
+    "dev": "export NODE_ENV=development && nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "keywords": [
+    "node",
+    "koa"
+  ],
+  "author": "liuxy0551@qq.com",
+  "license": "ISC",
+  "dependencies": {
+    "koa": "^2.13.0",
+    "koa-body": "^4.2.0",
+    "koa-bodyparser": "^4.2.1",
+    "koa-compress": "^5.0.1",
+    "koa-logger": "^3.2.1",
+    "koa-router": "^10.0.0",
+    "shelljs": "^0.8.4"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.6"
+  }
+}
