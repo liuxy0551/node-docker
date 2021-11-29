@@ -14,10 +14,9 @@ const router = new Router()
 module.exports = app => {
     // 验证消息的确来自微信服务器
     router.get('/', ctx => { ctx.body = 'hello node-docker' })
-    router.get('/api/v1', ctx => { ctx.body = 'hello node-docker v1' })
     
-    router.use('/api/v1/book', BookController.routes(), BookController.allowedMethods())
-    router.use('/api/v1/container', ContainerController.routes(), ContainerController.allowedMethods())
+    router.use('/book', BookController.routes(), BookController.allowedMethods())
+    router.use('/container', ContainerController.routes(), ContainerController.allowedMethods())
 
     app.use(router.routes(), router.allowedMethods())
 }

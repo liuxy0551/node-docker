@@ -10,11 +10,20 @@ class ContainerService {
             list.shift()
             list.pop()
             
+            let containerList = []
             for (let i of list) {
-                console.log(i)
+                let arr = i.split('  ').filter(item => !!item).filter(item => !item.includes('->'))
+                containerList.push({
+                    CONTAINERID: arr[0],
+                    IMAGE: arr[1],
+                    COMMAND: arr[2],
+                    CREATED: arr[3],
+                    STATUS: arr[4],
+                    NAMES: arr[5],
+                })
             }
 
-            return setCtxBody(200, result)
+            return setCtxBody(200, containerList)
         } catch (error) {
             return setCtxBody(500, error, '系统错误')
         }
