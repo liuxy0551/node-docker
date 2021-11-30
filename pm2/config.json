@@ -1,5 +1,5 @@
 {
-  "name": "jizhangla",
+  "name": "node-docker",
   "script": "./app.js",
   "cwd"   : "./",
   "log_date_format": "YYYY-MM-DD HH:mm:ss",
