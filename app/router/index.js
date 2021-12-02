@@ -2,7 +2,7 @@
  * 模块化处理router
  */
 const Router = require('koa-router')
-const BookController = require('./modules/book')
+const InfoController = require('./modules/info')
 const ImageController = require('./modules/image')
 const ContainerController = require('./modules/container')
 
@@ -16,7 +16,7 @@ module.exports = app => {
     // 验证消息的确来自微信服务器
     router.get('/', ctx => { ctx.body = 'hello node-docker' })
     
-    router.use('/book', BookController.routes(), BookController.allowedMethods())
+    router.use('/info', InfoController.routes(), InfoController.allowedMethods())
     router.use('/container', ContainerController.routes(), ContainerController.allowedMethods())
     router.use('/image', ImageController.routes(), ImageController.allowedMethods())
 

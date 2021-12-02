@@ -68,7 +68,8 @@ class ContainerService {
     // 4、删除容器
     async deleteContainer (ctx) {
         try {
-            const { containerName } = ctx.request.body
+            const { username, projectName } = ctx.request.body
+            const containerName = `${ username }_${ projectName }_node`
             const result = await runCommand(`docker rm -f ${ containerName }`)
             return setCtxBody(200, result)
         } catch (error) {
