@@ -3,12 +3,12 @@
  */
 const shell = require('shelljs')
 
-const runCommand = (command) => {
+const runCommand = (app, command) => {
     return new Promise((resolve, reject) => {
-        console.log(`Command is: ${ command }`)
+        app.emit('log-info', `Command is: ${ command }`)
         const result = shell.exec(command)
         const { code, stdout, stderr } = result
-        // console.log('Command result is: ', { code, stdout, stderr })
+        app.emit('log-info', `Command result is: ${ JSON.stringify({ code, stdout, stderr }) }`)
         if (code === 0) return resolve(stdout || stderr)
         reject(stderr)
     })

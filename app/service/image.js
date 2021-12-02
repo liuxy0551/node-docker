@@ -5,7 +5,7 @@ class ImageService {
     // 镜像列表
     async getImages (ctx) {
         try {
-            const result = await runCommand('docker images')
+            const result = await runCommand(ctx.app, 'docker images')
             const ImageList = ImageService.getImagesFunc(result)
             return setCtxBody(200, ImageList)
         } catch (error) {

@@ -20,9 +20,10 @@
     "koa": "^2.13.0",
     "koa-body": "^4.2.0",
     "koa-bodyparser": "^4.2.1",
-    "koa-compress": "^5.0.1",
+    "koa-compress": "^5.1.0",
     "koa-logger": "^3.2.1",
     "koa-router": "^10.0.0",
+    "log4js": "^6.3.0",
     "shelljs": "^0.8.4"
   },
   "devDependencies": {

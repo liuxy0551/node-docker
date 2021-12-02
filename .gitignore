@@ -4,6 +4,6 @@ node_modules
 .vscode
 .idea
 
-pm2/logs/*.log
+logger/logs/*
 
 utils/wechat/*.json

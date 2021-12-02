@@ -7,7 +7,7 @@ class ContainerService {
     // 容器列表
     async getContainers (ctx) {
         try {
-            const result = await runCommand('docker ps -a')
+            const result = await runCommand(ctx.app, 'docker ps -a')
             const containerList = ContainerService.getContainersFunc(result)
             return setCtxBody(200, containerList)
         } catch (error) {
@@ -18,7 +18,7 @@ class ContainerService {
     // 正在运行的容器列表
     async getRunningContainers (ctx) {
         try {
-            const result = await runCommand('docker ps')
+            const result = await runCommand(ctx.app, 'docker ps')
             const containerList = ContainerService.getContainersFunc(result)
             return setCtxBody(200, containerList)
         } catch (error) {
@@ -31,7 +31,7 @@ class ContainerService {
         try {
             const { username, projectName } = ctx.request.body
             const containerName = `${ username }_${ projectName }_node`
-            const result = await runCommand(`docker run -p 9000:9000 -itd --name ${ containerName } ${ imageName }`)
+            const result = await runCommand(ctx.app, `docker run -p 9000:9000 -itd --name ${ containerName } ${ imageName }`)
             return setCtxBody(200, result)
         } catch (error) {
             return setCtxBody(500, error, '系统错误')
@@ -43,9 +43,9 @@ class ContainerService {
         try {
             const { username, projectName, repositoryUrl } = ctx.request.body
             const containerName = `${ username }_${ projectName }_node`
-            await mkdirFolder(username)
-            await writeFileSync(username, projectName, repositoryUrl)
-            const result = await runCommand(`docker cp ${ fsPath }/${ username } ${ containerName }:/${ serverPath }/`)
+            await mkdirFolder(ctx.app, username)
+            await writeFileSync(ctx.app, username, projectName, repositoryUrl)
+            const result = await runCommand(ctx.app, `docker cp ${ fsPath }/${ username } ${ containerName }:/${ serverPath }/`)
             return setCtxBody(200, result)
         } catch (error) {
             return setCtxBody(500, error, '系统错误')
@@ -58,7 +58,7 @@ class ContainerService {
             const { username, projectName } = ctx.request.body
             const containerName = `${ username }_${ projectName }_node`
             const shFile = `/${ serverPath }/${ username }/${ bashFileName }`
-            const result = await runCommand(`docker exec ${ containerName } /bin/bash ${ shFile }`)
+            const result = await runCommand(ctx.app, `docker exec ${ containerName } /bin/bash ${ shFile }`)
             return setCtxBody(200, result)
         } catch (error) {
             return setCtxBody(500, error, '系统错误')
@@ -70,7 +70,7 @@ class ContainerService {
         try {
             const { username, projectName } = ctx.request.body
             const containerName = `${ username }_${ projectName }_node`
-            const result = await runCommand(`docker rm -f ${ containerName }`)
+            const result = await runCommand(ctx.app, `docker rm -f ${ containerName }`)
             return setCtxBody(200, result)
         } catch (error) {
             return setCtxBody(500, error, '系统错误')
