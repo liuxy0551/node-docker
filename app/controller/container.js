@@ -19,7 +19,7 @@ class ContainerController {
         }
     }
 
-    // 创建并后台运行容器
+    // 1、创建并后台运行容器
     async createContainer (ctx) {
         try {
             ctx.body = await ContainerService.createContainer(ctx)
@@ -28,16 +28,16 @@ class ContainerController {
         }
     }
 
-    // 删除容器
-    async deleteContainer (ctx) {
+    // 2、生成脚本文件并复制到容器内
+    async copyFileToContainer (ctx) {
         try {
-            ctx.body = await ContainerService.deleteContainer(ctx)
+            ctx.body = await ContainerService.copyFileToContainer(ctx)
         } catch (error) {
             ctx.body = error
         }
     }
 
-    // 进入容器并运行脚本
+    // 3、进入容器并运行脚本
     async execContainer (ctx) {
         try {
             ctx.body = await ContainerService.execContainer(ctx)
@@ -46,10 +46,10 @@ class ContainerController {
         }
     }
 
-    // 复制主机的文件到容器内
-    async copyFileToContainer (ctx) {
+    // 4、删除容器
+    async deleteContainer (ctx) {
         try {
-            ctx.body = await ContainerService.copyFileToContainer(ctx)
+            ctx.body = await ContainerService.deleteContainer(ctx)
         } catch (error) {
             ctx.body = error
         }

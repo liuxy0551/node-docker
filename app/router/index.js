@@ -3,6 +3,7 @@
  */
 const Router = require('koa-router')
 const BookController = require('./modules/book')
+const ImageController = require('./modules/image')
 const ContainerController = require('./modules/container')
 
 const router = new Router()
@@ -17,6 +18,7 @@ module.exports = app => {
     
     router.use('/book', BookController.routes(), BookController.allowedMethods())
     router.use('/container', ContainerController.routes(), ContainerController.allowedMethods())
+    router.use('/image', ImageController.routes(), ImageController.allowedMethods())
 
     app.use(router.routes(), router.allowedMethods())
 }

@@ -1,6 +1,7 @@
 const { setCtxBody } = require('../utils')
 const { runCommand } = require('../utils/shell')
 const { mkdirFolder, writeFileSync } = require('../utils/fs')
+const { imageName, fsPath, serverPath, bashFileName } = require('../../config/app.config')
 
 class ContainerService {
     // 容器列表
@@ -25,35 +26,38 @@ class ContainerService {
         }
     }
 
-    // 创建并后台运行容器
+    // 1、创建并后台运行容器
     async createContainer (ctx) {
         try {
             const { username, projectName } = ctx.request.body
-            const result = await runCommand(`docker run -itd --name ${ username }_${ projectName }_node node:12.22.7`)
+            const containerName = `${ username }_${ projectName }_node`
+            const result = await runCommand(`docker run -p 9000:9000 -itd --name ${ containerName } ${ imageName }`)
             return setCtxBody(200, result)
         } catch (error) {
             return setCtxBody(500, error, '系统错误')
         }
     }
 
-    // 复制主机的文件到容器内
+    // 2、生成脚本文件并复制到容器内
     async copyFileToContainer (ctx) {
         try {
-            const { username, projectName, repositoryUrl, containerName } = ctx.request.body
+            const { username, projectName, repositoryUrl } = ctx.request.body
+            const containerName = `${ username }_${ projectName }_node`
             await mkdirFolder(username)
             await writeFileSync(username, projectName, repositoryUrl)
-            // return setCtxBody(200)
-            const result = await runCommand(`docker cp base-files/${ username } ${ containerName }:/mnt/`)
+            const result = await runCommand(`docker cp ${ fsPath }/${ username } ${ containerName }:/${ serverPath }/`)
             return setCtxBody(200, result)
         } catch (error) {
             return setCtxBody(500, error, '系统错误')
         }
     }
 
-    // 进入容器并运行脚本
+    // 3、进入容器并运行脚本
     async execContainer (ctx) {
         try {
-            const { containerName, shFile = '' } = ctx.request.body
+            const { username, projectName } = ctx.request.body
+            const containerName = `${ username }_${ projectName }_node`
+            const shFile = `/${ serverPath }/${ username }/${ bashFileName }`
             const result = await runCommand(`docker exec ${ containerName } /bin/bash ${ shFile }`)
             return setCtxBody(200, result)
         } catch (error) {
@@ -61,7 +65,7 @@ class ContainerService {
         }
     }
 
-    // 删除容器
+    // 4、删除容器
     async deleteContainer (ctx) {
         try {
             const { containerName } = ctx.request.body
